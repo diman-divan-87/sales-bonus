@@ -49,29 +49,6 @@ function analyzeSalesData(data, options) {
     const sellerIndex = Object.fromEntries(sellerStats.map((s) => [s.id, s]));
     const productIndex = Object.fromEntries(data.products.map((p) => [p.sku, p]));
 
-    data.purchase_records.forEach((record) => {
-        // Чек
-        const seller = sellerIndex[record.seller_id]; // Продавец
-        if (!seller) return;
-        // Увеличить количество продаж
-        seller.sales_count += 1;
-        // Увеличить общую сумму всех продаж
-
-        // Расчёт прибыли для каждого товара
-        record.items.forEach((item) => {
-            const product = productIndex[item.sku]; // Товар
-            // Посчитать себестоимость (cost) товара как product.purchase_price, умноженную на количество товаров из чека
-            // Посчитать выручку (revenue) с учётом скидки через функцию calculateRevenue
-            // Посчитать прибыль: выручка минус себестоимость
-            // Увеличить общую накопленную прибыль (profit) у продавца
-
-            // Учёт количества проданных товаров
-            if (!seller.products_sold[item.sku]) {
-                seller.products_sold[item.sku] = 0;
-            }
-            // По артикулу товара увеличить его проданное количество у продавца
-        });
-    });
 
     // Расчёт выручки и прибыли для каждого продавца
     data.purchase_records.forEach((record) => {
